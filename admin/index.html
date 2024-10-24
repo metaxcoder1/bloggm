@@ -4,44 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
-    <link rel="stylesheet" href="style.css"> <!-- Add CSS if needed -->
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
     <h1>Admin Panel</h1>
     <form id="movieForm">
-        <label for="title">Enter Movie Title:</label>
-        <input type="text" id="title" name="title" required>
+        <label for="title">Movie Title:</label>
+        <input type="text" id="title" required><br>
 
-        <label for="image">Enter Movie Image URL:</label>
-        <input type="text" id="image" name="image" required>
+        <label for="image">Image URL:</label>
+        <input type="text" id="image" required><br>
 
-        <label for="link">Enter Movie Link:</label>
-        <input type="text" id="link" name="link" required>
+        <label for="link">Movie Link:</label>
+        <input type="text" id="link" required><br>
 
-        <label for="date">Enter Date:</label>
-        <input type="datetime-local" id="date" name="date" required>
+        <label for="date">Date:</label>
+        <input type="date" id="date" required><br>
 
         <button type="submit">Add Movie</button>
     </form>
 
     <script>
-        const form = document.getElementById('movieForm');
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-
+        document.getElementById('movieForm').addEventListener('submit', function(event) {
+            event.preventDefault();
             const title = document.getElementById('title').value;
             const image = document.getElementById('image').value;
             const link = document.getElementById('link').value;
             const date = document.getElementById('date').value;
 
-            const movieData = {
-                title,
-                image,
-                link,
-                date: new Date(date).toISOString()
-            };
+            const movieData = { title, image, link, date };
 
-            fetch('/content/movies', {
+            fetch('../add-movie', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -50,12 +43,10 @@
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Success:', data);
-                form.reset();
+                console.log('Movie added:', data);
+                document.getElementById('movieForm').reset();
             })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+            .catch(error => console.error('Error adding movie:', error));
         });
     </script>
 </body>

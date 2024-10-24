@@ -1,12 +1,17 @@
 {
-    "name": "movie-site",
-    "version": "1.0.0",
-    "description": "A dynamic movie listing site with admin panel",
-    "main": "index.js",
-    "scripts": {
-      "start": "http-server ."
-    },
-    "dependencies": {
-      "http-server": "^0.13.0"
-    }
-  }
+  "name": "movie-site",
+  "version": "1.0.0",
+  "description": "A dynamic movie listing site with admin panel",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server ."
+  },
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.21.1",
+    "http-server": "^0.13.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

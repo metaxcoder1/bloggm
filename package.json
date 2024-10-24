@@ -1,0 +1,12 @@
+{
+    "name": "movie-site",
+    "version": "1.0.0",
+    "description": "A dynamic movie listing site with admin panel",
+    "main": "index.js",
+    "scripts": {
+      "start": "http-server ."
+    },
+    "dependencies": {
+      "http-server": "^0.13.0"
+    }
+  }

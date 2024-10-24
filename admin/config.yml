@@ -6,12 +6,13 @@ media_folder: "public/images/uploads"  # Where uploaded images will go
 public_folder: "/images/uploads"       # Public path for images
 
 collections:
-  - name: "posts"
-    label: "Posts"
-    folder: "content/posts"
+  - name: "movies"
+    label: "Movies"
+    folder: "content/movies"  # Folder to save movie posts
     create: true
     slug: "{{slug}}"
     fields:
       - { label: "Title", name: "title", widget: "string" }
+      - { label: "Image", name: "image", widget: "image" }
+      - { label: "Movie Link", name: "link", widget: "string" }
       - { label: "Date", name: "date", widget: "datetime" }
-      - { label: "Body", name: "body", widget: "markdown" }

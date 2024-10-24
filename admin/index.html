@@ -1,52 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Panel - Movie Blog</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    h1 { text-align: center; }
-    .form-container { margin-bottom: 20px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="style.css"> <!-- Add CSS if needed -->
 </head>
 <body>
-  <h1>Admin Panel - Add Movie</h1>
+    <h1>Admin Panel</h1>
+    <form id="movieForm">
+        <label for="title">Enter Movie Title:</label>
+        <input type="text" id="title" name="title" required>
 
-  <!-- Form to Add Movies -->
-  <div class="form-container">
-    <form id="movie-form">
-      <input type="text" id="movie-title" placeholder="Enter Movie Title" required>
-      <input type="text" id="movie-image" placeholder="Enter Movie Image URL" required>
-      <input type="text" id="movie-link" placeholder="Enter Movie Link" required>
-      <input type="datetime-local" id="movie-date" required>
-      <button type="submit">Add Movie</button>
+        <label for="image">Enter Movie Image URL:</label>
+        <input type="text" id="image" name="image" required>
+
+        <label for="link">Enter Movie Link:</label>
+        <input type="text" id="link" name="link" required>
+
+        <label for="date">Enter Date:</label>
+        <input type="datetime-local" id="date" name="date" required>
+
+        <button type="submit">Add Movie</button>
     </form>
-  </div>
 
-  <script>
-    // Fetch existing movies from local storage or initialize an empty array
-    let movies = JSON.parse(localStorage.getItem('movies')) || [];
+    <script>
+        const form = document.getElementById('movieForm');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
 
-    // Add movie to the list
-    document.getElementById('movie-form').addEventListener('submit', function(event) {
-      event.preventDefault();
+            const title = document.getElementById('title').value;
+            const image = document.getElementById('image').value;
+            const link = document.getElementById('link').value;
+            const date = document.getElementById('date').value;
 
-      const title = document.getElementById('movie-title').value;
-      const image = document.getElementById('movie-image').value;
-      const link = document.getElementById('movie-link').value;
-      const date = document.getElementById('movie-date').value;
+            const movieData = {
+                title,
+                image,
+                link,
+                date: new Date(date).toISOString()
+            };
 
-      const movie = { title, image, link, date };
-      movies.push(movie); // Push the new movie into the movies array
-
-      // Save movies to local storage
-      localStorage.setItem('movies', JSON.stringify(movies));
-
-      // Reset the form
-      this.reset();
-      alert("Movie added! Don't forget to refresh the main page to see updates.");
-    });
-  </script>
+            fetch('/content/movies', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(movieData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                form.reset();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
 </body>
 </html>

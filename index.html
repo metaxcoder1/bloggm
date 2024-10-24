@@ -1,46 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Movie Blog</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    h1 { text-align: center; }
-    .movie { border-bottom: 1px solid #ccc; padding: 20px 0; }
-    .movie-title { font-size: 24px; }
-    .movie-image { width: 100px; height: auto; }
-    .movie-link { display: inline-block; margin-top: 10px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie List</title>
 </head>
 <body>
-  <h1>Movies</h1>
+    <h1>Movie Listings</h1>
+    <div id="movies"></div>
 
-  <div id="movies"></div>
-
-  <script>
-    // Fetch existing movies from local storage
-    const movies = JSON.parse(localStorage.getItem('movies')) || [];
-
-    // Display movies on the main page
-    function displayMovies() {
-      const moviesContainer = document.getElementById('movies');
-      moviesContainer.innerHTML = ''; // Clear current movies
-
-      movies.forEach(movie => {
-        const movieDiv = document.createElement('div');
-        movieDiv.classList.add('movie');
-        movieDiv.innerHTML = `
-          <div class="movie-title">${movie.title}</div>
-          <img src="${movie.image}" alt="${movie.title}" class="movie-image">
-          <a href="${movie.link}" class="movie-link">View More</a>
-          <div>${new Date(movie.date).toLocaleString()}</div>
-        `;
-        moviesContainer.appendChild(movieDiv);
-      });
-    }
-
-    displayMovies(); // Initial call to display movies
-  </script>
+    <script>
+        fetch('/content/movies') // Adjust this path based on how you save movies
+            .then(response => response.json())
+            .then(movies => {
+                const moviesContainer = document.getElementById('movies');
+                movies.forEach(movie => {
+                    const movieDiv = document.createElement('div');
+                    movieDiv.classList.add('movie');
+                    movieDiv.innerHTML = `
+                        <h2>${movie.title}</h2>
+                        <img src="${movie.image}" alt="${movie.title}">
+                        <p><a href="${movie.link}">Watch Now</a></p>
+                        <p>Release Date: ${new Date(movie.date).toLocaleDateString()}</p>
+                    `;
+                    moviesContainer.appendChild(movieDiv);
+                });
+            })
+            .catch(error => console.error('Error fetching movies:', error));
+    </script>
 </body>
 </html>

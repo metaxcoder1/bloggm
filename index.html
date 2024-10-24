@@ -3,23 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog</title>
+  <title>My Blog</title>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; }
     h1 { text-align: center; }
     .post { border-bottom: 1px solid #ccc; padding: 20px 0; }
-    .post-title { font-size: 24px; }
-    .post-date { font-size: 14px; color: #999; }
-    .post-body { margin-top: 10px; }
+    .post-title { font-size: 24px; font-weight: bold; }
+    .post-date { font-size: 14px; color: #666; }
+    .post-body { margin-top: 10px; font-size: 16px; }
   </style>
 </head>
 <body>
-  <h1>Blog</h1>
+  <h1>Blog Posts</h1>
   <div id="posts"></div>
 
   <script>
+    // Fetch posts from the JSON file
     fetch('/content/posts/index.json')
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
       .then(posts => {
         const postsContainer = document.getElementById('posts');
         posts.forEach(post => {
